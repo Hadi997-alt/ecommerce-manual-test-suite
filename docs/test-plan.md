@@ -85,7 +85,7 @@ and defect classification are in the companion [Test Strategy](test-strategy.md)
 | Tools | Browser DevTools (Elements, Console, Network), a text editor for the invoice file, Trello board for defect tracking |
 | Network | Standard broadband; ad blocker disabled during execution so layout matches what users see |
 
-The exact browser build numbers used for a run are recorded in the
+The browsers used for a run are recorded in the
 [Test Summary Report](test-summary-report.md#test-environment-used).
 
 ## 6. Entry and Exit Criteria
