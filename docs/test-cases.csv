@@ -1,0 +1,164 @@
+TC_ID,Module,Title,Preconditions,Test_Steps,Test_Data,Expected_Result,Actual_Result,Status,Priority,Severity
+TC-REG-01,Registration,Register a new account with valid details,Browser open on https://automationexercise.com; user logged out,"1. Click 'Signup / Login' in the header
+2. Under 'New User Signup!' enter name and email, click 'Signup'
+3. Fill every field on 'Enter Account Information' and 'Address Information'
+4. Click 'Create Account'
+5. Click 'Continue'",Name: Hadi QA; Email: qa.hadi+<date>01@example.com; Password: Test@1234; DOB: 10 May 1998; Country: Canada; Zipcode: M5V 2T6; Mobile: 4165550101,'ACCOUNT CREATED!' is shown; after Continue the header shows 'Logged in as Hadi QA',As expected.,Pass,High,Critical
+TC-REG-02,Registration,Signup is rejected for an email that is already registered,Browser open on https://automationexercise.com; user logged out; account from TC-REG-01 exists,"1. Open 'Signup / Login'
+2. Under 'New User Signup!' enter any name and the already registered email
+3. Click 'Signup'",Name: Second User; Email: same as TC-REG-01,User stays on the signup page and sees an error that the email is already registered,Error 'Email Address already exist!' shown. Message wording is ungrammatical; not logged as a defect.,Pass,High,Major
+TC-REG-03,Registration,Signup form requires name and email,Browser open on https://automationexercise.com; user logged out,"1. Open 'Signup / Login'
+2. Leave name and email empty under 'New User Signup!'
+3. Click 'Signup'",Name: (empty); Email: (empty),Form is not submitted; a required-field prompt appears on the name field,As expected.,Pass,Medium,Minor
+TC-REG-04,Registration,Signup rejects an email without a domain,Browser open on https://automationexercise.com; user logged out,"1. Open 'Signup / Login'
+2. Enter a name and an email with no domain
+3. Click 'Signup'",Name: Hadi QA; Email: qa.hadi@,Form is not submitted; email format validation message is shown,Browser validation message shown: email address is incomplete.,Pass,Medium,Minor
+TC-REG-05,Registration,Account information form requires mandatory fields,Browser open on https://automationexercise.com; user logged out,"1. Start signup with a new name and email
+2. On 'Enter Account Information' leave Password, First name, Last name, Address, State, City, Zipcode and Mobile Number empty
+3. Click 'Create Account'",Email: qa.hadi+<date>02@example.com; mandatory fields left empty,Account is not created; a required-field prompt appears on the first empty mandatory field (Password),As expected.,Pass,High,Major
+TC-REG-06,Registration,Password input is masked,Browser open on https://automationexercise.com; user logged out,"1. Start signup with a new name and email
+2. Type a password into the Password field
+3. Inspect the field in DevTools",Password: Test@1234,Characters are masked on screen and the input has type='password',As expected.,Pass,Low,Minor
+TC-REG-07,Registration,Date of birth accepts 29 February in a leap year,Browser open on https://automationexercise.com; user logged out,"1. Start signup with a new name and email
+2. Select Day 29, Month February, Year 2000
+3. Complete the remaining mandatory fields with valid data
+4. Click 'Create Account'",DOB: 29 February 2000; Email: qa.hadi+<date>03@example.com,Account is created successfully,As expected.,Pass,Medium,Minor
+TC-REG-08,Registration,Newsletter and special-offer checkboxes are optional,Browser open on https://automationexercise.com; user logged out,"1. Start signup with a new name and email
+2. Leave 'Sign up for our newsletter!' and 'Receive special offers from our partners!' unchecked
+3. Complete mandatory fields and click 'Create Account'",Email: qa.hadi+<date>04@example.com; both checkboxes unchecked,Account is created successfully,As expected.,Pass,Low,Trivial
+TC-LOG-01,Login,Log in with a valid email and password,Browser open on https://automationexercise.com; user logged out; account from TC-REG-01 exists,"1. Click 'Signup / Login'
+2. Under 'Login to your account' enter the registered email and password
+3. Click 'Login'",Email: qa.hadi+<date>01@example.com; Password: Test@1234,"User is redirected to the home page; header shows 'Logged in as Hadi QA', 'Logout' and 'Delete Account'",As expected.,Pass,High,Critical
+TC-LOG-02,Login,Login is rejected for an unregistered email,Browser open on https://automationexercise.com; user logged out,"1. Open 'Signup / Login'
+2. Enter an email that has never been registered and any password
+3. Click 'Login'",Email: not.registered.qa@example.com; Password: Test@1234,User stays on the login page and sees an error that the credentials are incorrect,Error 'Your email or password is incorrect!' shown.,Pass,High,Major
+TC-LOG-03,Login,Login is rejected for a wrong password,Browser open on https://automationexercise.com; user logged out; account from TC-REG-01 exists,"1. Open 'Signup / Login'
+2. Enter the registered email and a wrong password
+3. Click 'Login'",Email: qa.hadi+<date>01@example.com; Password: Wrong@999,User stays on the login page and sees an error that the credentials are incorrect; user is not logged in,Error 'Your email or password is incorrect!' shown.,Pass,High,Major
+TC-LOG-04,Login,Login form requires email and password,Browser open on https://automationexercise.com; user logged out,"1. Open 'Signup / Login'
+2. Leave email and password empty
+3. Click 'Login'",Email: (empty); Password: (empty),Form is not submitted; a required-field prompt appears on the email field,As expected.,Pass,Medium,Minor
+TC-LOG-05,Login,Logout ends the session,Logged in with a test account created in TC-REG-01; cart empty,"1. Click 'Logout' in the header
+2. Press the browser Back button
+3. Refresh the page",N/A,User lands on the login page; after Back and refresh the header shows 'Signup / Login' and no 'Logged in as' text,As expected.,Pass,Medium,Major
+TC-LOG-06,Login,Login accepts a registered email typed in a different letter case,Browser open on https://automationexercise.com; user logged out; account from TC-REG-01 exists,"1. Open 'Signup / Login'
+2. Enter the registered email in upper case with the correct password
+3. Click 'Login'",Email: QA.HADI+<date>01@EXAMPLE.COM; Password: Test@1234,"User is logged in, because email addresses are case-insensitive in practice; or, if case-sensitive matching is intended, the error message tells the user to check the email",Login rejected with the generic 'Your email or password is incorrect!' even though the password is correct. See BUG-002.,Fail,Medium,Minor
+TC-LOG-07,Login,Session is shared across browser tabs,Logged in with a test account created in TC-REG-01; cart empty,"1. Open https://automationexercise.com/products in a new tab
+2. Check the header",N/A,Header in the new tab shows 'Logged in as Hadi QA',As expected.,Pass,Low,Minor
+TC-PRD-01,Products & Search,All Products page lists products with price and actions,Browser open on https://automationexercise.com; user logged out,"1. Click 'Products' in the header
+2. Scroll through the product grid",N/A,"'ALL PRODUCTS' heading shown; each card has image, name, price in Rs., 'Add to cart' and 'View Product'",As expected.,Pass,High,Major
+TC-PRD-02,Products & Search,Product detail page shows full product information,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Click 'View Product' on Blue Top",Product: Blue Top,"Detail page shows name, Category, price, Availability, Condition, Brand, a quantity field and 'Add to cart'",As expected.,Pass,Medium,Minor
+TC-PRD-03,Products & Search,Search by a valid keyword returns matching products,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Type a keyword in 'Search Product'
+3. Click the search button",Keyword: top,'SEARCHED PRODUCTS' heading shown; every product listed has the keyword in its name,As expected.,Pass,High,Major
+TC-PRD-04,Products & Search,Search is case-insensitive,Browser open on https://automationexercise.com; user logged out,"1. Search for 'tshirt' and note the results
+2. Search for 'TSHIRT'
+3. Compare both result sets",Keywords: tshirt / TSHIRT,Both searches return the same products,As expected.,Pass,Medium,Minor
+TC-PRD-05,Products & Search,Search with no matches tells the user nothing was found,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Search for a term that matches no product
+3. Observe the results area",Keyword: xyzqw123,"A message such as 'No products found for ""xyzqw123""' is shown, ideally with a link back to all products",'SEARCHED PRODUCTS' heading shown above an empty area with no message. See BUG-004.,Fail,Medium,Minor
+TC-PRD-06,Products & Search,Search treats SQL-style input as plain text,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Search for an SQL-style string
+3. Check the page and the Network tab response",Keyword: ' OR '1'='1,"No server or database error is shown; the request returns 200; results are empty or contain only literal matches, not the full catalogue",No error; no products returned.,Pass,High,Major
+TC-PRD-07,Products & Search,Search does not execute script input,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Search for a script tag
+3. Watch for a browser alert and inspect where the term is echoed on the page",Keyword: <script>alert(1)</script>,No alert dialog appears; any echoed term is HTML-escaped,No alert; term is not rendered as HTML.,Pass,High,Critical
+TC-PRD-08,Products & Search,Quantity 0 cannot be added to the cart,Browser open on https://automationexercise.com; user logged out; cart empty,"1. Open the Blue Top detail page
+2. Set quantity to 0
+3. Click 'Add to cart'
+4. Open 'Cart'",Product: Blue Top; Quantity: 0,Item is not added with quantity 0; the field enforces a minimum of 1,As expected.,Pass,Medium,Major
+TC-PRD-09,Products & Search,Category filter shows only products in that category,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. In 'Category' expand 'Women' and click 'Dress'",Category: Women > Dress,Heading 'WOMEN - DRESS PRODUCTS' shown; only dresses listed,As expected.,Pass,Medium,Minor
+TC-PRD-10,Products & Search,Brand filter shows only products of that brand,Browser open on https://automationexercise.com; user logged out,"1. Open 'Products'
+2. Click 'Polo' under 'Brands'",Brand: Polo,Heading 'BRAND - POLO PRODUCTS' shown; only Polo products listed,As expected.,Pass,Medium,Minor
+TC-CRT-01,Cart,Add a product to the cart from the product list,Browser open on https://automationexercise.com; user logged out; cart empty,"1. Open 'Products'
+2. Hover Blue Top and click 'Add to cart'
+3. In the 'Added!' dialog click 'View Cart'",Product: Blue Top (Rs. 500),"Cart has one row: Blue Top, Price Rs. 500, Quantity 1, Total Rs. 500",As expected.,Pass,High,Critical
+TC-CRT-02,Cart,Cart shows correct line totals for two different products,Browser open on https://automationexercise.com; user logged out; cart empty,"1. Add Blue Top from the product list and click 'Continue Shopping'
+2. Add Men Tshirt from the product list
+3. Open 'Cart'",Blue Top (Rs. 500); Men Tshirt (Rs. 400),"Two rows, each Quantity 1, totals Rs. 500 and Rs. 400",As expected.,Pass,High,Critical
+TC-CRT-03,Cart,Minimum quantity of 1 from the product detail page,Browser open on https://automationexercise.com; user logged out; cart empty,"1. Open the Blue Top detail page
+2. Leave quantity at 1 and click 'Add to cart'
+3. Open 'Cart'",Product: Blue Top; Quantity: 1,Cart row shows Quantity 1 and Total Rs. 500,As expected.,Pass,High,Major
+TC-CRT-04,Cart,Large quantity calculates the correct line total,Browser open on https://automationexercise.com; user logged out; cart empty,"1. Open the Blue Top detail page
+2. Set quantity to 999 and click 'Add to cart'
+3. Open 'Cart'",Product: Blue Top; Quantity: 999,Cart row shows Quantity 999 and Total Rs. 499500; table layout is not broken,As expected.,Pass,Medium,Major
+TC-CRT-05,Cart,Change item quantity from the cart page,Browser open on https://automationexercise.com; user logged out; Blue Top in cart with quantity 1,"1. Open 'Cart'
+2. Try to change the Blue Top quantity to 3 in the Quantity column
+3. Look for an update button or automatic recalculation",Product: Blue Top; New quantity: 3,Quantity can be changed in the cart and the line total updates to Rs. 1500,"Quantity is shown as a fixed value that cannot be edited, and there is no update control. See BUG-003.",Fail,High,Major
+TC-CRT-06,Cart,Adding the same product again increases its quantity,Browser open on https://automationexercise.com; user logged out; Blue Top in cart with quantity 1,"1. Open the Blue Top detail page
+2. Set quantity to 2 and click 'Add to cart'
+3. Open 'Cart'",Product: Blue Top; Additional quantity: 2,One Blue Top row with Quantity 3 and Total Rs. 1500 (no duplicate row),As expected.,Pass,Medium,Major
+TC-CRT-07,Cart,Remove a product from the cart,Browser open on https://automationexercise.com; user logged out; only Blue Top in cart,"1. Open 'Cart'
+2. Click the X in the Blue Top row",Product: Blue Top,Row disappears without a page reload; 'Cart is empty!' message shown with a link to products,As expected.,Pass,High,Major
+TC-CRT-08,Cart,Cart items are kept after logging in,Browser open on https://automationexercise.com; user logged out; cart empty,"1. As a guest add Men Tshirt to the cart
+2. Log in with the TC-REG-01 account
+3. Open 'Cart'",Product: Men Tshirt; account from TC-REG-01,Men Tshirt is still in the cart after login,As expected.,Pass,Medium,Major
+TC-CHK-01,Checkout,Guest is asked to log in before checkout,Browser open on https://automationexercise.com; user logged out; Blue Top in cart,"1. Open 'Cart'
+2. Click 'Proceed To Checkout'",N/A,Dialog says 'Register / Login account to proceed on checkout.' with a link to the login page; checkout page is not opened,As expected.,Pass,High,Critical
+TC-CHK-02,Checkout,Delivery address matches the registered address,Logged in with a test account created in TC-REG-01; Blue Top in cart,"1. Open 'Cart'
+2. Click 'Proceed To Checkout'
+3. Compare 'Your delivery address' with the registration data",Address data from TC-REG-01,"Name, company, address lines, city, state, zipcode, country and phone match what was registered",As expected.,Pass,High,Major
+TC-CHK-03,Checkout,Billing address matches the registered address,Logged in with a test account created in TC-REG-01; Blue Top in cart,"1. Proceed to checkout
+2. Compare 'Your billing address' with the registration data",Address data from TC-REG-01,Billing address block matches the registered address,As expected.,Pass,Medium,Major
+TC-CHK-04,Checkout,Order review total equals the sum of cart line totals,Logged in with a test account created in TC-REG-01; Blue Top x3 and Men Tshirt x1 in cart,"1. Proceed to checkout
+2. In 'Review Your Order' check each line total
+3. Check the 'Total Amount' row",Blue Top x3 (Rs. 1500); Men Tshirt x1 (Rs. 400),Line totals Rs. 1500 and Rs. 400; Total Amount Rs. 1900,As expected.,Pass,High,Critical
+TC-CHK-05,Checkout,Order comment is accepted and user reaches payment,Logged in with a test account created in TC-REG-01; Blue Top in cart,"1. Proceed to checkout
+2. Type a comment in the order comment box
+3. Click 'Place Order'",Comment: Please deliver after 5 PM.,"Payment page opens with Name on Card, Card Number, CVC, Expiration MM and YYYY fields",As expected.,Pass,Medium,Minor
+TC-CHK-06,Checkout,Place an order with valid card details,Logged in with a test account created in TC-REG-01; Blue Top in cart; on the Payment page,"1. Fill all card fields with valid dummy data
+2. Click 'Pay and Confirm Order'",Name: Hadi QA; Card: 4111 1111 1111 1111; CVC: 123; Expiry: 12 / 2030,'ORDER PLACED!' and 'Congratulations! Your order has been confirmed!' shown with 'Download Invoice' and 'Continue',As expected.,Pass,High,Critical
+TC-CHK-07,Checkout,Payment form requires all card fields,Logged in with a test account created in TC-REG-01; Blue Top in cart; on the Payment page,"1. Leave all card fields empty
+2. Click 'Pay and Confirm Order'",All card fields empty,Order is not placed; a required-field prompt appears on Name on Card,As expected.,Pass,High,Major
+TC-CHK-08,Checkout,Card number with letters is rejected,Logged in with a test account created in TC-REG-01; Blue Top in cart; on the Payment page,"1. Enter a card number containing letters and valid values elsewhere
+2. Click 'Pay and Confirm Order'",Card: abcd efgh ijkl mnop; CVC: 123; Expiry: 12 / 2030,Order is not placed; the card number field shows a format error,Order placed and 'ORDER PLACED!' shown. See BUG-006.,Fail,High,Major
+TC-CHK-09,Checkout,Expired card date is rejected,Logged in with a test account created in TC-REG-01; Blue Top in cart; on the Payment page,"1. Enter a valid card number with an expiry date in the past
+2. Click 'Pay and Confirm Order'",Card: 4111 1111 1111 1111; CVC: 123; Expiry: 01 / 2020,Order is not placed; an error says the card has expired,Order placed and 'ORDER PLACED!' shown. See BUG-006.,Fail,High,Major
+TC-CHK-10,Checkout,Cart is emptied after a successful order,Logged in with a test account created in TC-REG-01; order placed in TC-CHK-06,"1. On the order confirmation page click 'Continue'
+2. Open 'Cart'",N/A,'Cart is empty!' message shown,As expected.,Pass,High,Major
+TC-ORD-01,Orders,Download the invoice after placing an order,Logged in with a test account created in TC-REG-01; order placed,"1. On the 'ORDER PLACED!' page click 'Download Invoice'
+2. Open the downloaded file",Order from TC-CHK-06,A text invoice downloads and names the customer and the purchase amount,As expected.,Pass,Medium,Major
+TC-ORD-02,Orders,Invoice amount matches the checkout total for a multi-quantity order,Logged in with a test account created in TC-REG-01; Blue Top x3 and Men Tshirt x1 in cart,"1. Proceed to checkout and note 'Total Amount'
+2. Place the order with valid dummy card data
+3. Click 'Download Invoice' and open the file
+4. Compare the invoice amount with the noted total",Blue Top x3; Men Tshirt x1; expected total Rs. 1900,"Invoice amount is 1900, the same as the checkout 'Total Amount'","Checkout shows Rs. 1900 but the invoice states 900, the sum of unit prices ignoring quantity. See BUG-001.",Fail,High,Critical
+TC-ORD-03,Orders,Invoice amount matches the checkout total for a single item,Logged in with a test account created in TC-REG-01; Blue Top x1 in cart,"1. Proceed to checkout and note 'Total Amount'
+2. Place the order and download the invoice
+3. Compare amounts",Blue Top x1; expected total Rs. 500,"Invoice amount is 500, the same as the checkout 'Total Amount'",As expected.,Pass,High,Critical
+TC-ACC-01,Account,Header reflects the logged-in state,Logged in with a test account created in TC-REG-01; cart empty,"1. Check the header on the home page, Products page and Cart page",N/A,"Every page shows 'Logged in as Hadi QA', 'Logout' and 'Delete Account'; 'Signup / Login' is not shown",As expected.,Pass,Medium,Minor
+TC-ACC-02,Account,Delete account removes the user,Logged in with a test account created in TC-REG-08; cart empty,"1. Click 'Delete Account'
+2. Click 'Continue'
+3. Try to log in with the deleted account's credentials",Account from TC-REG-08,'ACCOUNT DELETED!' shown; later login fails with 'Your email or password is incorrect!',As expected.,Pass,High,Major
+TC-ACC-03,Account,Subscribe to the newsletter from the footer,Browser open on https://automationexercise.com; user logged out,"1. Scroll to 'SUBSCRIPTION' in the footer
+2. Enter an email and click the arrow button",Email: qa.hadi+news@example.com,Message 'You have been successfully subscribed!' shown,As expected.,Pass,Low,Minor
+TC-ACC-04,Account,Footer subscription rejects an invalid email,Browser open on https://automationexercise.com; user logged out,"1. Scroll to 'SUBSCRIPTION'
+2. Enter an invalid email and click the arrow button",Email: qa.hadi.example.com,Subscription is not submitted; email validation message shown,As expected.,Pass,Low,Minor
+TC-CON-01,Contact Form,Submit the contact form with valid data and an attachment,Browser open on https://automationexercise.com; user logged out,"1. Click 'Contact us'
+2. Fill Name, Email, Subject and message
+3. Attach a small file
+4. Click 'Submit' and accept the confirmation dialog",Name: Hadi QA; Email: qa.hadi@example.com; Subject: Order query; Message: Where is my order?; File: note.txt (1 KB),'Success! Your details have been submitted successfully.' shown,As expected.,Pass,Medium,Major
+TC-CON-02,Contact Form,Contact form requires an email,Browser open on https://automationexercise.com; user logged out,"1. Open 'Contact us'
+2. Fill Name, Subject and message; leave Email empty
+3. Click 'Submit'",Email: (empty),Form is not submitted; required-field prompt on Email,As expected.,Pass,Medium,Minor
+TC-CON-03,Contact Form,Contact form rejects a name made only of spaces,Browser open on https://automationexercise.com; user logged out,"1. Open 'Contact us'
+2. Enter three spaces as Name; fill Email, Subject and message validly
+3. Click 'Submit' and accept the dialog",Name: '   ' (3 spaces); Email: qa.hadi@example.com,Form is not submitted; error asks for a name,Form submitted and success message shown. See BUG-005.,Fail,Medium,Minor
+TC-CON-04,Contact Form,Contact form requires a message,Browser open on https://automationexercise.com; user logged out,"1. Open 'Contact us'
+2. Fill Name, Email and Subject; leave the message box empty
+3. Click 'Submit' and accept the dialog",Message: (empty),Form is not submitted; error asks for a message,Form submitted and success message shown. See BUG-005.,Fail,Medium,Minor
+TC-CON-05,Contact Form,Contact form rejects an invalid email format,Browser open on https://automationexercise.com; user logged out,"1. Open 'Contact us'
+2. Enter an email without '@'; fill other fields validly
+3. Click 'Submit'",Email: qa.hadi.example.com,Form is not submitted; email validation message shown,As expected.,Pass,Medium,Minor
+TC-CON-06,Contact Form,Home button after submission returns to the home page,Browser open on https://automationexercise.com; user logged out; contact form just submitted (TC-CON-01),1. Click 'Home' under the success message,N/A,Home page loads,As expected.,Pass,Low,Trivial
+TC-UI-01,UI / Cross-browser,Main purchase path works in Firefox,Browser open on https://automationexercise.com; user logged out; Firefox latest stable,"1. Log in
+2. Search for 'top' and add Blue Top to the cart
+3. Proceed to checkout and place the order with valid dummy card data",Card: 4111 1111 1111 1111; CVC: 123; Expiry: 12 / 2030,Every step behaves as in Chrome; 'ORDER PLACED!' shown; no layout breakage or console errors from the site's own scripts,As expected.,Pass,Medium,Major
+TC-UI-02,UI / Cross-browser,Main purchase path works in Edge,Browser open on https://automationexercise.com; user logged out; Edge latest stable,"1. Log in
+2. Search for 'top' and add Blue Top to the cart
+3. Proceed to checkout and place the order with valid dummy card data",Card: 4111 1111 1111 1111; CVC: 123; Expiry: 12 / 2030,Every step behaves as in Chrome; 'ORDER PLACED!' shown; no layout breakage,As expected.,Pass,Medium,Major
+TC-UI-03,UI / Cross-browser,Layout is usable on a mobile viewport,Browser open on https://automationexercise.com; user logged out; DevTools device toolbar set to iPhone 12 Pro (390x844),"1. Open the home page and the header menu
+2. Open 'Products' and scroll the grid
+3. Add an item and open 'Cart'",Viewport: 390x844,Menu links are reachable; products stack in one column; cart table is readable without horizontal page scroll; buttons are tappable,As expected.,Pass,Medium,Minor
