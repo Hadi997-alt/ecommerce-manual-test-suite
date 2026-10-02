@@ -1,0 +1,13 @@
+# OS and editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Spreadsheet lock/backup files created when the CSV is opened in Excel or LibreOffice
+~$*
+.~lock.*#
+
+# Python cache from the validation script
+__pycache__/
